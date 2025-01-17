@@ -1,22 +1,48 @@
-import { Fragment } from "react"
+import { useState } from "react"
 
-const poem = {
-  lines: [
-    "I write, erase, rewrite",
-    "Erase again, and then",
-    "A poppy blooms.",
-  ],
-}
+export default function EditProfile() {
+  const [isEditing, setIsEditing] = useState(false)
 
-export default function Poem() {
+  const [formData, setFormData] = useState({
+    firstname: "",
+    lastname: "",
+  })
+
+  function handleClick(e) {
+    e.preventDefault()
+    setIsEditing(!isEditing)
+  }
+
+  function handleChange(e) {
+    if (e.target.name === "firstname") {
+      setFormData({
+        ...formData,
+        firstname: e.target.value,
+      })
+    } else {
+      setFormData({
+        ...formData,
+        lastname: e.target.value,
+      })
+    }
+  }
+
   return (
-    <article>
-      {poem.lines.map((line, index) => (
-        <Fragment key={index}>
-          <p>{line}</p>
-          {(index !== 0 || index !== poem.lines.length - 1) && <hr />}
-        </Fragment>
-      ))}
-    </article>
+    <form>
+      <label>
+        First name: <b>{formData.firstname}</b>
+        <input name="firstname" onChange={handleChange} />
+      </label>
+      <label>
+        Last name: <b>{formData.lastname}</b>
+        <input name="lastname" onChange={handleChange} />
+      </label>
+      <button type="submit" onClick={handleClick}>
+        Edit Profile
+      </button>
+      <p>
+        <i>Hello, Jane Jacobs!</i>
+      </p>
+    </form>
   )
 }
