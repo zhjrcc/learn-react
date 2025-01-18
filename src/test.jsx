@@ -1,48 +1,53 @@
 import { useState } from "react"
+import Contact from "./Contact.js"
 
-export default function EditProfile() {
-  const [isEditing, setIsEditing] = useState(false)
-
-  const [formData, setFormData] = useState({
-    firstname: "",
-    lastname: "",
-  })
-
-  function handleClick(e) {
-    e.preventDefault()
-    setIsEditing(!isEditing)
+export default function ContactList() {
+  const [reverse, setReverse] = useState(false)
+  const [expandedIds, setExpandedIds] = useState(new Set())
+  const displayedContacts = [...contacts]
+  if (reverse) {
+    displayedContacts.reverse()
   }
 
-  function handleChange(e) {
-    if (e.target.name === "firstname") {
-      setFormData({
-        ...formData,
-        firstname: e.target.value,
-      })
+  function onExpanded(contactId) {
+    const nextExpandedIds = new Set(expandedIds)
+    if (nextExpandedIds.has(contactId)) {
+      nextExpandedIds.delete(contactId)
     } else {
-      setFormData({
-        ...formData,
-        lastname: e.target.value,
-      })
+      nextExpandedIds.add(contactId)
     }
+    setExpandedIds(nextExpandedIds)
   }
 
   return (
-    <form>
+    <>
       <label>
-        First name: <b>{formData.firstname}</b>
-        <input name="firstname" onChange={handleChange} />
+        <input
+          type="checkbox"
+          value={reverse}
+          onChange={(e) => {
+            setReverse(e.target.checked)
+          }}
+        />{" "}
+        以相反的顺序显示
       </label>
-      <label>
-        Last name: <b>{formData.lastname}</b>
-        <input name="lastname" onChange={handleChange} />
-      </label>
-      <button type="submit" onClick={handleClick}>
-        Edit Profile
-      </button>
-      <p>
-        <i>Hello, Jane Jacobs!</i>
-      </p>
-    </form>
+      <ul>
+        {displayedContacts.map((contact, i) => (
+          <li key={i}>
+            <Contact
+              contact={contact}
+              expandedIds={expandedIds}
+              onExpanded={onExpanded}
+            />
+          </li>
+        ))}
+      </ul>
+    </>
   )
 }
+
+const contacts = [
+  { id: 0, name: "Alice", email: "alice@mail.com" },
+  { id: 1, name: "Bob", email: "bob@mail.com" },
+  { id: 2, name: "Taylor", email: "taylor@mail.com" },
+]
