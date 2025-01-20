@@ -1,10 +1,11 @@
 import { useContext, useState } from "react"
-import { TasksContext, TasksDispatchContext } from "./TasksContext"
+import { TasksDispatchContext } from "./TasksContext"
+
+let nextId = 3
 
 export default function AddTask() {
-  const dispatch = useContext(TasksDispatchContext)
-  const tasks = useContext(TasksContext)
   const [text, setText] = useState("")
+  const dispatch = useContext(TasksDispatchContext)
   return (
     <>
       <input
@@ -17,7 +18,7 @@ export default function AddTask() {
           setText("")
           dispatch({
             type: "added",
-            id: tasks.length - 1,
+            id: nextId++,
             text: text,
           })
         }}

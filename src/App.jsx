@@ -1,5 +1,5 @@
 import { useState } from "react"
-import TaskApp from "./components/taskApp/TaskApp"
+import TaskApp from "./components/taskApp-reducer/TaskApp"
 import FilterableProductTable from "./components/filterTable/FilterableProductTable"
 import MyButton from "./components/button/MyButton"
 import MySharedButton from "./components/button/MySharedButton"

@@ -1,18 +1,14 @@
-import { useReducer } from "react"
-import { TasksContext } from "./TasksContext"
-import { TasksDispatchContext } from "./TasksContext"
-import AddTask from "./AddTask"
-import TaskList from "./TaskList"
+import { createContext, useContext, useReducer } from "react"
 
-export default function TaskApp() {
+export const TasksContext = createContext(null)
+export const TasksDispatchContext = createContext(null)
+
+export function TasksProvider({ children }) {
   const [tasks, dispatch] = useReducer(tasksReducer, initialTasks)
-
   return (
     <TasksContext.Provider value={tasks}>
       <TasksDispatchContext.Provider value={dispatch}>
-        <h1>Day off in Kyoto</h1>
-        <AddTask />
-        <TaskList />
+        {children}
       </TasksDispatchContext.Provider>
     </TasksContext.Provider>
   )
@@ -46,6 +42,14 @@ function tasksReducer(tasks, action) {
       throw Error("Unknown action: " + action.type)
     }
   }
+}
+
+export function useTasks() {
+  return useContext(TasksContext)
+}
+
+export function useTasksDispatch() {
+  return useContext(TasksDispatchContext)
 }
 
 const initialTasks = [
