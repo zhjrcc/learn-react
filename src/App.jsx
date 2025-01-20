@@ -1,4 +1,5 @@
 import { useState } from "react"
+import TaskApp from "./components/taskApp/TaskApp"
 import FilterableProductTable from "./components/filterTable/FilterableProductTable"
 import MyButton from "./components/button/MyButton"
 import MySharedButton from "./components/button/MySharedButton"
@@ -34,6 +35,10 @@ function App() {
       <div>
         <h2>数据过滤表格</h2>
         <FilterableProductTable products={PRODUCTS} />
+      </div>
+      <div>
+        <h2>TaskList</h2>
+        <TaskApp />
       </div>
     </>
   )
